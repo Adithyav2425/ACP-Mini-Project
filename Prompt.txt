@@ -1,0 +1,95 @@
+ Design and implement a menu-driven 2D Graphics Editor in C using a 2D character array as the drawing canvas. The canvas should initially be filled with the character _ (underscore), and graphical objects should be drawn using the character * (asterisk).
+
+1.Write functions to draw a circle, rectangle, line, and triangle.
+2.You should be able to
+      add objects to the picture,
+      delete objects from the picture, and
+       modify objects in the picture.
+3.Use a 2d array of characters to store the picture.
+4.Write a function to display the picture.
+
+Additionally, you can use the ncurses package to create menus and draw pictures.
+
+The directory is empty — let me build this from scratch. I'll design a comprehensive, well-structured 2D Graphics Editor in C with ncurses menus. Let me first plan the architecture.
+
+Implementation Plan
+Now let me build all the files:
+
+graphics_editor.c
+Makefile
+README.md
+Now let me verify the code compiles cleanly:
+
+…\Mini Project > gcc -Wall -Wextra -std=c99 -o graphics_editor graphics_editor.c -lncurses -lm 2>&1 && echo "BUILD SUCCESS"
+
+At line:1 char:84
++ ... 99 -o graphics_editor graphics_editor.c -lncurses -lm 2>&1 && echo "B ...
++                                                                ~~
+The token '&&' is not a valid statement separator in this version.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : InvalidEndOfLine
+ 
+…\Mini Project > gcc -Wall -Wextra -std=c99 -o graphics_editor graphics_editor.c -lncurses -lm 2>&1
+
+gcc : graphics_editor.c:15:21: fatal error: ncurses.h: No such file or directory
+At line:1 char:1
++ gcc -Wall -Wextra -std=c99 -o graphics_editor graphics_editor.c -lncu ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (graphics_editor...le or directory:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ #include <ncurses.h>
+                     ^
+compilation terminated.
+ncurses isn't available in this Windows environment. Let me check what's available and provide a non-ncurses fallback as well — I'll restructure the solution to work natively on Windows using conio.h + ANSI/Windows console API, while keeping the ncurses version intact.
+
+ncurses is not installed on this MinGW setup. I'll rewrite the program to work with the Windows Console API (native to MinGW on Windows) which gives the same interactive colored menu experience without needing ncurses.
+
+graphics_editor.c
+Makefile
+✅ BUILD SUCCESS! Now let me update the README to reflect the Windows build:
+
+README.md
+Let me do a final directory listing to confirm everything is in place:
+
+Everything is compiled and ready. Here's a complete summary:
+
+✅ 2D Graphics Editor — Complete
+Files Created
+File	Description
+graphics_editor.c
+Full source (~700 lines)
+graphics_editor.exe
+Ready-to-run binary
+Makefile
+Build script
+README.md
+Documentation
+Architecture Highlights
+Canvas: char canvas[25][60] — _ background, * shapes, with a display_canvas() function that renders it live.
+
+Drawing Algorithms:
+
+Line → Bresenham's Line Algorithm
+Rectangle → 4 × Bresenham lines (sides)
+Circle → Midpoint Circle Algorithm
+Triangle → 3 × Bresenham lines (vertices)
+Object Model: Each shape stored as a Shape struct with an ID, type, visibility flag, and parameters. redraw_all() resets the canvas and re-rasterises every visible object after deletes/modifies.
+
+Menus: Built with the Windows Console API (wincon.h) — coloured, cursor-positioned, interactive navigation using arrow keys or number shortcuts. No external libraries needed.
+
+To run:
+
+bash
+
+
+cd "d:\College\2nd Sem\ACP\Mini Project"
+.\graphics_editor.exe
+Implementation Plan
+8:17 PM, 6/5/2026
+
+
+
+
+
+
